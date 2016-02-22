@@ -33,7 +33,45 @@
 		  ;
   */
 
-Module = ;
+Module = ID LCURLY imports declarations RCURLY;
+
+imports = import imports;
+import = IMPORT ID SEMICOLON
+		| 
+		;
+		
+declarations = declaration declarations;
+declaration = funcdecl
+			| fielddecl
+			| typedecl;
+			
+funcdecl = accessibility typename ID LPAREN paramlist RPAREN LCURLY statements RCURLY;
+fielddecl = accessibility typename ID SEMICOLON;
+typedecl = accessibility TYPE ID EQL STRING_LITERAL SEMICOLON;
+
+//---------
+accessibility = PUBLIC
+				| 
+				;
+//---------
+typename = primitivetype
+		| arraytype
+		| ID;
+primitivetype = VOID
+				| BOOLEAN
+				| INT;
+arraytype = typename LBRACKET RBRACKET; 
+// TODO: heed the hint to expand arraytype defn
+
+//--------
+// TODO: fix param with commas
+paramlist = param paramsTail;
+param = typename ID
+		|
+		;
+paramsTail = COMMA param
+			| 
+			;
 
 /**/
 
