@@ -60,19 +60,76 @@ typename = primitivetype
 primitivetype = VOID
 				| BOOLEAN
 				| INT;
-arraytype = typename LBRACKET RBRACKET; 
-// TODO: heed the hint to expand arraytype defn
+arraytype = primitivetype LBRACKET RBRACKET
+			array LBRACKET RBRACKET
+			ID LBRACKET RBRACKET; 
 
 //--------
-// TODO: fix param with commas
-paramlist = param paramsTail;
-param = typename ID
-		|
-		;
-paramsTail = COMMA param
+// 
+paramlist = nonEmptyParList 
 			| 
 			;
+nonEmptyParList = param ParamLTail;
+//nonEmptyParList = nonEmptyParList COMMA param
+//				| param;
+paramLTail = COMMA param paralLTail
+			| 
+			;
+param = typename ID
+		;
+//---------
 
+statement = typename ID SEMICOLON
+			| LCURLY statementlist RCURLY 
+			| ifStatement
+			| WHILE LPAREN expression RPAREN statement
+			| BREAK SEMICOLON
+			| returnStatement
+			| expression SEMICOLON;
+
+statementlist = statement statementlist
+				| 
+				;
+ifStatement = IF LPAREN expression RPAREN statement 
+			| IF LPAREN expression RPAREN statement ELSE statement; // Shift-reduce conflict
+returnStatement = RETURN SEMICOLON
+				| RETURN expression SEMICOLON;
+
+expression = assignment
+			| rhsExpression;
+assignment = lhsExpression EQL expression;
+lhsExpression = ID
+				| arrayAccess;
+arrayAccess = lhsExpression LBRACKET expression RBRACKET;
+rhsExpression = arithExpression optionalArith;
+optionalArith = compOp arithExpression
+				| 
+				;
+compOp = EQEQ | NEQ | LT | LEQ | GT | GEQ;
+arithExpression = arithExpression addOp term
+				| term;
+addOp = PLUS | MINUS;
+term = term mulOp factor
+	| factor;
+mulOp = TIMES | DIV | MOD;
+factor = MINUS factor
+		| primExpression;
+primExpression = lhsExpression
+				| ID LPAREN expressionList RPAREN 			// function call
+				| LBRACKET nonEmptyExpressionList RBRACKET	// array Expression
+				| STRING_LITERAL
+				| INT_LITERAL
+				| TRUE
+				| FALSE
+				| LPAREN expression RPAREN;					// parenthesised expression
+
+expressionList = nonEmptyExpressionList
+				|
+				;
+nonEmptyExpressionList = nonEmptyExpressionList COMMA expression
+						| expression; 
+
+				
 /**/
 
 /* Dummy rule to make the lexer compile. Remove this once you have written all other rules. */	  
