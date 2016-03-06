@@ -33,7 +33,7 @@
 		  ;
   */
 
-Module = ID LCURLY imports declarations RCURLY;
+Module = MODULE ID LCURLY imports declarations RCURLY;
 
 imports = imports import
 		|
@@ -134,7 +134,3 @@ nonEmptyExpressionList = nonEmptyExpressionList COMMA expression
 
 				
 /**/
-
-/* Dummy rule to make the lexer compile. Remove this once you have written all other rules. */	  
-Dummy = MODULE INT VOID IF ELSE WHILE RETURN BREAK BOOLEAN PUBLIC TRUE FALSE INT_LITERAL STRING_LITERAL ID TYPE IMPORT
-           PLUS MINUS TIMES DIV MOD EQEQ NEQ LEQ GEQ LT GT LBRACKET RPAREN COMMA RCURLY LCURLY SEMICOLON RBRACKET LPAREN EQL;
