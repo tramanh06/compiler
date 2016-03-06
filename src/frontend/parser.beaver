@@ -22,16 +22,6 @@
 // declaration of start symbol; no need to change this
 %goal Module;
 
-// temporary declaration, you can remove this once you have written all other rules
-%goal Dummy;
-
-/* TODO: Flesh out the rule for Module, and add rules for other nonterminals. Here is an example
-         of a rule you may want to add:
-         
-   Accessibility = PUBLIC
-		  |
-		  ;
-  */
 
 Module = MODULE ID LCURLY imports declarations RCURLY;
 
@@ -40,7 +30,9 @@ imports = imports import
 		;
 import = IMPORT ID SEMICOLON;
 		
-declarations = declaration declarations;
+declarations = declaration declarations
+			|
+			;
 declaration = funcdecl
 			| fielddecl
 			| typedecl;

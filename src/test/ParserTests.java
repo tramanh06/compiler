@@ -35,6 +35,12 @@ public class ParserTests {
 
 	@Test
 	public void testEmptyModule() {
+		// test empty module with no imports an declarations
 		runtest("module Test { }");
+			
+		// test case not enclosed by module
+		runtest("import java; import math;", false);
 	}
+	
+	
 }
