@@ -22,7 +22,6 @@
 // declaration of start symbol; no need to change this
 %goal Module;
 
-
 Module = MODULE ID LCURLY imports declarations RCURLY;
 
 imports = imports import
@@ -30,14 +29,14 @@ imports = imports import
 		;
 import = IMPORT ID SEMICOLON;
 		
-declarations = declaration declarations
+declarations = declarations declaration
 			|
 			;
 declaration = funcdecl
 			| fielddecl
 			| typedecl;
 			
-funcdecl = accessibility typename ID LPAREN paramlist RPAREN LCURLY statements RCURLY;
+funcdecl = accessibility typename ID LPAREN paramlist RPAREN LCURLY statementlist RCURLY;
 fielddecl = accessibility typename ID SEMICOLON;
 typedecl = accessibility TYPE ID EQL STRING_LITERAL SEMICOLON;
 
@@ -53,22 +52,17 @@ primitivetype = VOID
 				| BOOLEAN
 				| INT;
 arraytype = primitivetype LBRACKET RBRACKET
-			arraytype LBRACKET RBRACKET
-			ID LBRACKET RBRACKET; 
+			| arraytype LBRACKET RBRACKET
+			| ID LBRACKET RBRACKET; 
 
 //--------
 // 
 paramlist = nonEmptyParList 
 			| 
 			;
-nonEmptyParList = param paramLTail;
-//nonEmptyParList = nonEmptyParList COMMA param
-//				| param;
-paramLTail = COMMA param paramLTail
-			| 
-			;
-param = typename ID
-		;
+nonEmptyParList = nonEmptyParList COMMA param
+				| param;
+param = typename ID;
 //---------
 
 statement = typename ID SEMICOLON
@@ -79,9 +73,6 @@ statement = typename ID SEMICOLON
 			| returnStatement
 			| expression SEMICOLON;
 			
-statements = statements statement
-			|
-			;
 statementlist = statement statementlist
 				| 
 				;
@@ -95,7 +86,8 @@ expression = assignment
 assignment = lhsExpression EQL expression;
 lhsExpression = ID
 				| arrayAccess;
-arrayAccess = lhsExpression LBRACKET expression RBRACKET;
+arrayAccess = ID LBRACKET expression RBRACKET
+			| arrayAccess LBRACKET expression RBRACKET;
 rhsExpression = arithExpression optionalArith;
 optionalArith = compOp arithExpression
 				| 
