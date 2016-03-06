@@ -24,10 +24,13 @@ public class ParserTests {
 			}
 		} catch (beaver.Parser.Exception e) {
 			if(succeed) {
+				System.out.print("Fail at "+src);
 				e.printStackTrace();
 				fail(e.getMessage());
+				
 			}
 		} catch (Throwable e) {
+			System.out.print("Fail at "+src);
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
@@ -43,70 +46,71 @@ public class ParserTests {
 	}
 	
 	// TODO: fix arraytype. DOESNT FREAKING WORK!
-//	@Test 
-//	public void testImportsAndDeclarations(){
-//		// test multiple imports
-//		runtest("module test{ import java; import math;}");
-//		// wrong spelling for "import"
-////		runtest("module test{ iport java; import math;}", false);
-//		
-//		// test function declaration, with empty parameter list and function body
-//		runtest("module test{ import java; import math; public int testFunction(){ }}");
-//		// function declaration without return type
-//		runtest("module test{ import java; import math; public testFunction(){ } }", false);
-//		
-//		// test function declaration, with empty parameter list
-//		runtest("module test{ import java; import math; public int testFunction(){int var;} }");
-//		// test parameter list without closing parenthesis
-//		runtest("module test{ import java; import math; public int testFunction({int var;} }", false);
-//		
-//		// local variables cannot be assigned value when declared
-//		runtest("module test{ import java; import math; public int testFunction(){int var = 1;} }", false);
-//		
-////		// test field declaration, without initial assignment; testing array type 
-////		runtest("module test{ import java; import math; public int integer; public boolean flag; public int[] array; }");
-////		// test array type without closing bracket
-////		runtest("module test{ import java; import math; public int integer; public boolean flag; public int[ array; }", false);
-////		
-////		// test field declaration, global variable cannot be assigned value when declared
-////		runtest("module test{ import java; import math; public int integer; public boolean flag = true; public int[] array; }", false);
-////		
-////		// test field declaration without accessibility specifier
-////		runtest("module test{ import java; import math; int integer; public boolean flag; public int[] ; }");
-//		
-//		// test type declaration
-//		runtest("module test{ public type newType = \"Type1\"; }");
-//		
-//		// test correctly self-defined type - TypeName can be an identifier
-//		runtest("module test{ public type newType = \"Type1\"; public Type1 aType1Variable; }");
-//
-//		// test undefined self-defined type - TypeName can be an identifier
-//		runtest("module test{ public type newType = \"Type1\"; public Type2 aType1Variable; }");
-//		
-//		// test wrong accessibility
-//		runtest("module test{ import java; import math; private int test_function(){ } }", false);
-//		// test declaration without accessibility specifier
-//		runtest("module test{ import java; import math; int test_function(){ } }");
-//	}
-	
-	@Test
-	public void testParamaterList(){
-		// test parameter list, test expressions 
-		runtest("module test{ public void testFunction(int count, int[] a, boolean flag){count = count + 1; flag = false; data[12] = 123; } }");
+	@Test 
+	public void testImportsAndDeclarations(){
+		// test multiple imports
+		runtest("module test{ import java; import math;}");
+		// wrong spelling for "import"
+		runtest("module test{ iport java; import math;}", false);
+		
+		// test function declaration, with empty parameter list and function body
+		runtest("module test{ import java; import math; public int testFunction(){ }}");
+		// function declaration without return type
+		runtest("module test{ import java; import math; public testFunction(){ } }", false);
+		
+		// test function declaration, with empty parameter list
+		runtest("module test{ import java; import math; public int testFunction(){int var;} }");
+		// test parameter list without closing parenthesis
+		runtest("module test{ import java; import math; public int testFunction({int var;} }", false);
+		
+		// local variables cannot be assigned value when declared
+		runtest("module test{ import java; import math; public int testFunction(){int var = 1;} }", false);
+		
+		// test field declaration, without initial assignment; testing array type 
+		runtest("module test{ import java; import math; public int integer; public boolean flag; public int[] array; }");
+		// test array type without closing bracket
+		runtest("module test{ import java; import math; public int integer; public boolean flag; public int[ array; }", false);
+		
+		// test field declaration, global variable cannot be assigned value when declared
+		runtest("module test{ import java; import math; public int integer; public boolean flag = true; public int[] array; }", false);
+		
+		// test field declaration without accessibility specifier
+		runtest("module test{ import java; import math; int integer; public boolean flag; public int[] array; }");
+		
+		// test type declaration
+		runtest("module test{ public type newType = \"Type1\"; }");
+		
+		// test correctly self-defined type - TypeName can be an identifier
+		runtest("module test{ public type newType = \"Type1\"; public Type1 aType1Variable; }");
+
+		// test undefined self-defined type - TypeName can be an identifier
+		runtest("module test{ public type newType = \"Type1\"; public Type2 aType1Variable; }");
+		
+		// test wrong accessibility
+		runtest("module test{ import java; import math; private int test_function(){ } }", false);
+		// test declaration without accessibility specifier
+		runtest("module test{ import java; import math; int test_function(){ } }");
 	}
 	
 //	@Test
+//	public void testParamaterList(){
+//		// test parameter list, test expressions 
+//		runtest("module test{ public void testFunction(int count, int[] a, boolean flag){count = count + 1; flag = false; data[12] = 123; } }");
+//		runtest("module test{ import java; import math; public int integer; public boolean flag; public int[] array; }");
+//	}
+//	
+//	@Test
 //	public void testStatementsAndExpressions(){
 //		// test array access with [identifier]
-//		runtest("module test{ public void testFunction(int count, boolean flag){count = count + 1; flag = false; data[foo] = 123; } }");
+//		runtest("module test{ public void testFunction(int count, int[] array, boolean flag){count = count + 1; flag = false; data[foo] = 123; } }");
 //		
 //		// test if else statement, arithmetic expressions 
 //		// test function call 
 //		// test return statement
-//		runtest("module test{ public void processArray(){ int num1; int num2; if (compare(num1, num2)){ array[1] = 9;} else{ array[2] = (array[1]*3 + 2)/4;}} public boolean compare(int num1, int num2){ return true;} }"); 
+//		runtest("module test{ public void processArray(int[] array){ int num1; int num2; if (compare(num1, num2)){ array[1] = 9;} else{ array[2] = (array[1]*3 + 2)/4;}} public boolean compare(int num1, int num2){ return true;} }"); 
 //		
 //		// test else statement without if 
-//		runtest("module test{ public void processArray(){ int num1; int num2; else{ array[2] = (array[1]*3 + 2)/4;}} public boolean compare(int num1, int num2){ return true;} }", false); 
+//		runtest("module test{ public void processArray(int[] array){ int num1; int num2; else{ array[2] = (array[1]*3 + 2)/4;}} public boolean compare(int num1, int num2){ return true;} }", false); 
 //		
 //		// test while statement and break statement
 //		// test single if statement
