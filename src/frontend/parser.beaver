@@ -35,10 +35,10 @@
 
 Module = ID LCURLY imports declarations RCURLY;
 
-imports = import imports;
-import = IMPORT ID SEMICOLON
-		| 
+imports = imports import
+		|
 		;
+import = IMPORT ID SEMICOLON;
 		
 declarations = declaration declarations;
 declaration = funcdecl
@@ -61,7 +61,7 @@ primitivetype = VOID
 				| BOOLEAN
 				| INT;
 arraytype = primitivetype LBRACKET RBRACKET
-			array LBRACKET RBRACKET
+			arraytype LBRACKET RBRACKET
 			ID LBRACKET RBRACKET; 
 
 //--------
@@ -69,10 +69,10 @@ arraytype = primitivetype LBRACKET RBRACKET
 paramlist = nonEmptyParList 
 			| 
 			;
-nonEmptyParList = param ParamLTail;
+nonEmptyParList = param paramLTail;
 //nonEmptyParList = nonEmptyParList COMMA param
 //				| param;
-paramLTail = COMMA param paralLTail
+paramLTail = COMMA param paramLTail
 			| 
 			;
 param = typename ID
@@ -86,7 +86,10 @@ statement = typename ID SEMICOLON
 			| BREAK SEMICOLON
 			| returnStatement
 			| expression SEMICOLON;
-
+			
+statements = statements statement
+			|
+			;
 statementlist = statement statementlist
 				| 
 				;
