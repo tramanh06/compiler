@@ -45,7 +45,6 @@ public class ParserTests {
 //		runtest("import java; import math;", false);
 	}
 	
-	// TODO: fix arraytype. DOESNT FREAKING WORK!
 	@Test 
 	public void testImportsAndDeclarations(){
 		// test multiple imports
