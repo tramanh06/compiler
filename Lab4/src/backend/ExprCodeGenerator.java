@@ -139,10 +139,9 @@ public class ExprCodeGenerator extends Visitor<Value> {
 	@Override
 	public Value visitArrayIndex(ArrayIndex nd) {
 		/* Todo: generate code for array index */
-		Value array = wrap(nd.getBase().accept(this));
-		Value index = wrap(nd.getIndex().accept(this));
-		Value combined = Jimple.v().newArrayRef(array, index);
-		return combined;
+		final Value base = wrap(nd.getBase().accept(this));
+		final Value index = wrap(nd.getIndex().accept(this));
+		return Jimple.v().newArrayRef(base, index);
 	}
 	
 	/** Generate code for a variable name. */

@@ -330,4 +330,35 @@ public class CompilerTests {
 					new Object[0],
 					5);
 		}
+		@Test public void testWhile1() {
+			runtest("module Test {public int f() {int x; x = 0; while(x<3) x=4; return x;}}",
+					"Test",
+					"f",
+					new Class<?>[0],
+					new Object[0],
+					4);
+		}
+		@Test public void testWhile2() {
+			runtest("module Test {public int f() {int x; x = 0; while(x<43) {x=5; break;} return x;}}",
+					"Test",
+					"f",
+					new Class<?>[0],
+					new Object[0],
+					5);
+		}
+		@Test public void testAarray() {
+			runtest("module Test {" +
+					"  public int f() {" +
+					" int[][] a;"+
+					" a = [[0,0],[1,1]];"+
+					" a[1][1] = 2;" +
+					"    return a[1][1];" +
+					"  }" +
+					"}",
+					"Test",
+					"f",
+					new Class<?>[0],
+					new Object[0],
+				2);
+		}
 	}
